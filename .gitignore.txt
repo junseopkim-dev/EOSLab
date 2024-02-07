@@ -1,0 +1,11 @@
+HydroLAKES_polys_v10_shp.zip
+
+HydroLAKES_polys_v10.dbf
+
+HydroLAKES_polys_v10.prj
+
+HydroLAKES_polys_v10.sbn
+
+HydroLAKES_polys_v10.sbx
+
+HydroLAKES_polys_v10.shx
