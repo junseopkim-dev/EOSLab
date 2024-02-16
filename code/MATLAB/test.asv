@@ -65,19 +65,19 @@ Olcott = readtimetable('CO-OPS_9052076_met','VariableNamingRule','preserve'); % 
 
 CapeVincentLat = 44.13028;
 CapeVincentLon = -76.33222;
-% CapeVincent.(1)("2018-12-14");
+% CapeVincent.(1)("2020-01-16");
 
 OswegoLat = 43.46417;
 OswegoLon = -76.51183;
-% Oswego.(1)("2018-12-14");
+% Oswego.(1)("2020-01-16");
 
 RochesterLat = 43.26903;
 RochesterLon = -77.62575;
-% Rochester.(1)("2018-12-14");
+% Rochester.(1)("2020-01-16");
 
 OlcottLat = 43.33839;
 OlcottLon = -78.72733;
-% Olcott.(1)("2018-12-14");
+% Olcott.(1)("2020-01-16");
 
 figure,
 
@@ -87,7 +87,7 @@ plot(Oswego,"Verified (m)");
 plot(Rochester,"Verified (m)");
 plot(Olcott,"Verified (m)");
 
-%% 지도에 궤적 6개 + 관측소 측정값(Gauge) 플롯
+%% 지도에 궤적 6개 플롯
 figure;
 
 plot(S.X,S.Y,'k');
@@ -100,13 +100,9 @@ plot_scatter(gt2r,waterbodyid,10);
 plot_scatter(gt3l,waterbodyid,10);
 plot_scatter(gt3r,waterbodyid,10);
 
-station_marker_size=30;
-scatter(CapeVincentLon,CapeVincentLat,station_marker_size,CapeVincent.(1)("2018-12-14"),'filled');
-scatter(OswegoLon,OswegoLat,station_marker_size,Oswego.(1)("2018-12-14"),'filled');
-scatter(RochesterLon,RochesterLat,station_marker_size,Rochester.(1)("2018-12-14"),'filled');
-scatter(OlcottLon,OlcottLat,station_marker_size,Olcott.(1)("2018-12-14"),'filled');
+scatter(CapeVincentLat,CapeVincentLon,)
 
-colorbar();
+colorbar;
 txt = sprintf('%d.%d.%d',yymmdd(1,1),yymmdd(1,2),yymmdd(1,3));
 title(txt);
 

@@ -27,29 +27,7 @@ clc;
 % Obs_Ro
 % Obs_Ol
 
-cd C:\KJS\data\20240116\ObservationStations
-CapeVincent = readtimetable('CO-OPS_9052000_met.csv','VariableNamingRule','preserve'); % 9052000 CapeVincent
-Oswego = readtimetable('CO-OPS_9052030_met','VariableNamingRule','preserve'); % 9052030 Oswego
-Rochester = readtimetable('CO-OPS_9052058_met','VariableNamingRule','preserve'); % 9052058 Rochester
-Olcott = readtimetable('CO-OPS_9052076_met','VariableNamingRule','preserve'); % 9052076 Olcott
-
-
-% 위도 경도 : Bench Mark Sheet로부터 알 수 있음
-% https://tidesandcurrents.noaa.gov/map/index.html?id=9052058
-CapeVincentLat = 44.13028;
-CapeVincentLon = -76.33222;
-
-OswegoLat = 43.46417;
-OswegoLon = -76.51183;
-
-RochesterLat = 43.26903;
-RochesterLon = -77.62575;
-
-OlcottLat = 43.33839;
-OlcottLon = -78.72733;
-
 %% ICESAT-2 Data
-cd C:\KJS\data\20240116
 filenames=textread('file_names.txt','%s');
 
 yymmdd=zeros(length(filenames),3);
@@ -58,16 +36,27 @@ for j=1:length(filenames),
     yymmdd(j,1)=str2num(filenames{j}(7:10));
     yymmdd(j,2)=str2num(filenames{j}(11:12));
     yymmdd(j,3)=str2num(filenames{j}(13:14));
-
-    tt(j,1)=sprintf('%d-%d-%d',yymmdd(j,1),yymmdd(j,2),yymmdd(j,3));
-
 end
 
-ttt=datetime(tt,"Format","yyyy-MM-dd");
+DateNum = zeros(length(filenames),1);
+DateStrings = zeros(length(filenames),1);
+Date = zeros(length(filenames),1);
+for j=1:length(filenames),
+    % tt(j,1) = filenames{j}(7:14);
+    tt(j,1)=sprintf('%d-%d-%d',yymmdd(j,1),yymmdd(j,2),yymmdd(j,3);
+end
+
 
 time2=yymmdd(:,1) + (yymmdd(:,2)-1)/12 + (yymmdd(:,3)/365.5) ;
 
-
+%%
+cd C:\KJS\data\20240116\ObservationStations
+CapeVincent = readtimetable('CO-OPS_9052000_met.csv'); % 9052000 CapeVincent
+Oswego = readtimetable('CO-OPS_9052030_met'); % 9052030 Oswego
+Rochester = readtimetable('CO-OPS_9052058_met'); % 9052058 Rochester
+Olcott = readtimetable('CO-OPS_9052076_met'); % 9052076 Olcott
+% Latitude	43° 20.3 N
+% Longitude	78° 43.6 W
 %%
 cd C:\KJS\data\20240116
 atl13=zeros(length(yymmdd),1);
@@ -122,11 +111,10 @@ close(f)
 
 %%
 figure;
-% x= time2;
-x=ttt;
+x= time2;
 y= atl13;
 % plot(x,y,'o');
-scatter(x,atl13);
+scatter(time2,atl13);
 
 hold on
 % plot(time2,temp2.ht_ortho.Value(lo))
@@ -136,8 +124,8 @@ hold on
 
 % figure,
 
-plot(CapeVincent,"Verified (m)");
+plot(CapeVincent,"Verified(m)");
 % hold on,
-plot(Oswego,"Verified (m)");
-plot(Rochester,"Verified (m)");
-plot(Olcott,"Verified (m)");
+plot(Oswego,"Verified(m)");
+plot(Rochester,"Verified(m)");
+plot(Olcott,"Verified(m)");
