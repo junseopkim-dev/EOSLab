@@ -112,26 +112,8 @@ title(txt);
 
 %% 통계
 alpha = 0.05;
-figure;
-t = tiledlayout(2,4);
 
-nexttile
-histgraph(gt1l,waterbodyid,75.35,175);
-nexttile
-histgraph(gt1r,waterbodyid,75.4,50);
-nexttile
-histgraph(gt2l,waterbodyid,75.32,60);
-nexttile
-histgraph(gt2r,waterbodyid,75.26,30);
-nexttile
-histgraph(gt3l,waterbodyid,75.16,60);
-nexttile
-histgraph(gt3r,waterbodyid,75.23,30);
-nexttile([1 2])
-
-
-xname = ["gt1l","gt1r","gt2l","gt2r","gt3l","gt3r","gtAll"];
-
+%
 htortho1 = gt1l.ht_ortho.Value(gt1l_lo);
 htortho2 = gt1r.ht_ortho.Value(gt1r_lo);
 htortho3 = gt2l.ht_ortho.Value(gt2l_lo);
@@ -165,6 +147,30 @@ er4 = pd4.mu-confidence_interval4(1);
 er5 = pd5.mu-confidence_interval5(1);
 er6 = pd6.mu-confidence_interval6(1);
 ersum = pdsum.mu-confidence_intervalsum(1);
+%
+
+
+figure;
+t = tiledlayout(2,4);
+
+nexttile
+histgraph(gt1l,waterbodyid,pdsum.mu);
+nexttile
+histgraph(gt1r,waterbodyid,pdsum.mu);
+nexttile
+histgraph(gt2l,waterbodyid,pdsum.mu);
+nexttile
+histgraph(gt2r,waterbodyid,pdsum.mu);
+nexttile
+histgraph(gt3l,waterbodyid,pdsum.mu);
+nexttile
+histgraph(gt3r,waterbodyid,pdsum.mu);
+nexttile([1 2])
+
+
+xname = ["gt1l","gt1r","gt2l","gt2r","gt3l","gt3r","gtAll"];
+
+
 
 
 
@@ -189,22 +195,26 @@ end
 
 
 % 히스토그램 플롯, (x_cood, y_coord) => 텍스트 띄울 위치
-function histgraph(gt,waterbodyid,x_coord, y_coord)
+function histgraph(gt,waterbodyid,total_mean)
     alpha = 0.05; % 신뢰구간, 95%
-    edges = [74.0:0.01:76.0];
     lo = find(gt.inland_water_body_id.Value(:)==waterbodyid);
     htortho = gt.ht_ortho.Value(lo);
-
-    a1 = histogram(htortho, edges);
+    binwidth=0.02;
+    a1 = histogram(htortho,"BinEdges", linspace(0, 1, 101));
+    height = max(a1.Values)+10;
     a2 = histfit(htortho);
-
     pd = fitdist(htortho, 'Normal');
     confidence_interval = calculate_confidence_interval(pd.mu, pd.sigma, alpha);
+
+
+    xlim([total_mean-0.5 total_mean+0.5]);
+    ylim([0 200]);
+
 
     title(gt.Attributes.groundtrack_id);
 
     txt = sprintf('#%d \n%.2f ± %.4f', length(htortho), mean(htortho), mean(htortho) - confidence_interval(1));
-    text(x_coord, y_coord, txt, 'FontSize', 10);
+    text(total_mean, height+50, txt, 'FontSize', 10);
     hold on;
 
     % 정규분포의 95% 신뢰구간을 area로 색칠
@@ -216,6 +226,7 @@ function histgraph(gt,waterbodyid,x_coord, y_coord)
     % stem(confidence_interval(2));
     % disp(['95% Confidence Interval: [' num2str(confidence_interval(1)) ', ' num2str(confidence_interval(2)) ']']);
 
+    line([pd.mu,pd.mu],ylim, 'Color', [1 1 0], 'LineStyle', '-');
     line([confidence_interval(1),confidence_interval(1)],ylim, 'Color', 'r', 'LineStyle', '--');
     line([confidence_interval(2),confidence_interval(2)],ylim, 'Color', 'r', 'LineStyle', '--');
     

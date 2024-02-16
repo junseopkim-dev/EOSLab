@@ -1,6 +1,6 @@
 %% 초기 세팅
-clear all; fclose all; close all;
-clc;
+% clear all; fclose all; close all;
+% clc;
 
 FILE_NAME = 'ATL13_20190804013844_05650401_006_01.h5';
 MAP_NAME = 'HydroLAKES_polys_v10.shp';
@@ -76,12 +76,13 @@ pd1 = fitdist(htortho1, 'Normal');
 
 function histgraph(gt, waterbodyid, x_coord, y_coord)
     alpha = 0.05;
-    edges = [75.0:0.01:75.5];
+    % edges = [75.0:0.01:75.5];
+    binnum = 25;
     lo = find(gt.inland_water_body_id.Value(:) == waterbodyid);
     htortho = gt.ht_ortho.Value(lo);
     
     % 히스토그램 및 정규분포 피팅
-    a1 = histogram(htortho, edges);
+    a1 = histogram(htortho,'BinWidth',1);
     a2 = histfit(htortho);
     
     % 정규분포의 모수 추정
